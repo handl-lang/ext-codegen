@@ -1,7 +1,7 @@
 //! `hnl-ext-codegen` — the `codegen` extension for `hnl` (ADR-0149, PL-004).
 //!
 //! The pipeline lives in `handl-plugin-codegen` (`CodegenRegistry` over
-//! the `hnl-engine-codegen` desired-state kernel) plus the target modules
+//! the `hnl-tool-codegen` desired-state kernel) plus the target modules
 //! linked through `handl-plugin-ext-codegen`'s features — `c` (backend +
 //! libclang), `webidl`, `python` (emitter composing backend `c`), and
 //! `cli` — all on by default. This crate is the *packaging*: it exports
@@ -28,7 +28,7 @@ handl_ext::export!(
         .version(env!("CARGO_PKG_VERSION"))
         .command(
             "codegen",
-            "codegen [plan|apply|destroy|revert] <c|webidl|python|cli> [<spec> | --from-url <url>] --output <dir> [--target <triple>] [--include <glob>] [--exclude <glob>] [--config <yaml>] [--source-url <url>] [--emit-spec <path|->] [--cache-dir <dir>] [--check|--dry-run] [--run <id>]",
+            "codegen [plan|apply|destroy|revert] <c|webidl|python|cli> [<spec> | --from-url <url>] --output <dir> [--target <triple>] [--include <glob>] [--exclude <glob>] [--config <yaml>] [--source-url <url>] [--emit-spec <path|->] [--cache-dir <dir>] [--check|--dry-run] [--run <id>]  |  codegen [plan|apply] --manifest <dir> [--output <root>] [--check|--dry-run]",
         ),
     dispatch
 );

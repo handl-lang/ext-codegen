@@ -9,7 +9,7 @@ host discovers it via `--ext-dir`, `$HANDL_EXT_DIR`, `~/.handl/ext/`, or a dev
 
 PL-004 T-076: renamed from `ext-sdkgen` — clean break, `hnl sdkgen` is gone
 (no alias). The IR/registry core is `handl-plugin-codegen` in the `host`
-repo; the target modules live in the `engine-codegen-*` sibling repos
+repo; the target modules live in the `tool-codegen-*` sibling repos
 (`c`, `webidl`, `python`, `cli`, `file`).
 
 ## Commands
@@ -28,7 +28,7 @@ host did (its own `eprintln!` diagnostics reach the host's stderr verbatim
 in-process).
 
 The pipeline is `Source<I> → IR → Emitter<I> → Change set → Plan/Apply/
-Destroy/Revert` over the `hnl-engine-codegen` kernel (`FsStore` +
+Destroy/Revert` over the `hnl-tool-codegen` kernel (`FsStore` +
 `Engine::apply`, manifest + journal under `.handl/codegen/`).
 
 ## Development
