@@ -67,6 +67,17 @@ handl-kit-arrow-lower = { path = "../host/crates/handl-kit-arrow-lower" }
 [patch."https://github.com/handl-lang/engine-codegen"]
 hnl-engine-codegen = { path = "../engine-codegen" }
 
+# PL-004 T-079: `hnl-engine-fmt@main` deps on `hnl-engine-codegen` —
+# resolve the sibling checkout so local dev doesn't need the push.
+[patch."https://github.com/handl-lang/engine-fmt"]
+hnl-engine-fmt = { path = "../engine-fmt" }
+
+# PL-004 T-079: `handl-plugin-ext-lint` (via `handl-kit-prelude`) deps on
+# `hnl-engine-codemod` — resolve it from the sibling checkout like the
+# codemod ext does.
+[patch."https://github.com/handl-lang/engine-codemod"]
+hnl-engine-codemod = { path = "../engine-codemod" }
+
 [patch."https://github.com/handl-lang/engine-codegen-c"]
 handl-plugin-codegen-backend-c = { path = "../engine-codegen-c" }
 
