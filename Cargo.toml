@@ -1,0 +1,86 @@
+[package]
+name = "hnl-ext-codegen"
+version = "0.1.0"
+edition = "2024"
+description = "`hnl codegen` — desired-state codegen as a dynamic `hnl` extension (ADR-0149, PL-004)."
+license = "MIT"
+repository = "https://github.com/handl-lang/ext-codegen"
+homepage = "https://handl-lang.github.io/docs/ext-codegen/"
+documentation = "https://handl-lang.github.io/docs/ext-codegen/reference/"
+readme = "README.md"
+keywords = ["handl", "extension", "cli", "codegen"]
+categories = ["development-tools"]
+# Git-install only: https://github.com/handl-lang/ext-codegen (no crates.io).
+publish = false
+
+[lib]
+# `cdylib` is the shipped artifact (`libhnl_ext_codegen.{so,dylib,dll}`);
+# `rlib` keeps `cargo test` statically linked (ADR-0149 §Consequences).
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+handl-ext = { git = "https://github.com/handl-lang/kernel", branch = "main" }
+handl-kit-prelude = { git = "https://github.com/handl-lang/host", branch = "main" }
+handl-kit-pkg = { git = "https://github.com/handl-lang/kit-pkg", branch = "main" }
+handl-language = { git = "https://github.com/handl-lang/kernel", branch = "main" }
+# PL-004 T-076: the `hnl codegen` command surface — `codegen_command`
+# parses argv into `CodegenRequest` and drives `CodegenRegistry` over
+# the `hnl-engine-codegen` kernel. Renamed from `handl-plugin-ext-sdkgen`
+# (clean break: `hnl sdkgen` is gone, no alias).
+handl-plugin-ext-codegen = { git = "https://github.com/handl-lang/host", branch = "main" }
+serde_json = "1"
+
+[profile.dev]
+opt-level = 1
+
+# T-076: nothing is pushed yet — host@main lacks `handl-plugin-codegen`
+# (renamed from plugin-sdkgen) and `handl-plugin-ext-codegen`, and the
+# engine-codegen-* module crates dep on the pre-rename git names. Resolve
+# every host/engine-codegen crate from the sibling checkouts; once the
+# remotes carry the renames this block can shrink back to the kit crates
+# (same convention as ext-sdkgen's dev-link patch table).
+[patch."https://github.com/handl-lang/host"]
+handl-plugin-codegen = { path = "../host/crates/plugin-codegen" }
+handl-plugin-ext-codegen = { path = "../host/crates/plugin-ext-codegen" }
+handl-kit-core = { path = "../host/crates/handl-kit-core" }
+handl-kit-prelude = { path = "../host/crates/kit-prelude" }
+handl-kit-data-prelude = { path = "../host/crates/handl-kit-data-prelude" }
+handl-kit-prelude-lang = { path = "../host/crates/handl-kit-prelude-lang" }
+handl-kit-stdlib = { path = "../host/crates/handl-kit-stdlib" }
+handl-kit-server = { path = "../host/crates/handl-kit-server" }
+handl-kit-ffi = { path = "../host/crates/handl-kit-ffi" }
+handl-plugin-ffi = { path = "../host/crates/plugin-ffi" }
+handl-kit-lang = { path = "../host/crates/handl-kit-lang" }
+handl-kit-eqsat = { path = "../host/crates/handl-kit-eqsat" }
+handl-kit-mlopt = { path = "../host/crates/kit-mlopt" }
+hnl-ext-mlopt = { path = "../host/crates/hnl-ext-mlopt" }
+# `handl-plugin-codegen-emitter-file` / `-cli` dep on the host's fmt ext
+# for `.hnl` canonicalization — keep it on the same local checkout so
+# `handl-language`/`handl-platform` types unify.
+handl-plugin-ext-fmt = { path = "../host/crates/plugin-ext-fmt" }
+handl-plugin-ext-diag = { path = "../host/crates/plugin-ext-diag" }
+handl-platform = { path = "../host/crates/platform" }
+handl-runtime = { path = "../host/crates/handl-runtime" }
+handl-kit-data = { path = "../host/crates/handl-kit-data" }
+handl-kit-arrow-lower = { path = "../host/crates/handl-kit-arrow-lower" }
+
+[patch."https://github.com/handl-lang/engine-codegen"]
+hnl-engine-codegen = { path = "../engine-codegen" }
+
+[patch."https://github.com/handl-lang/engine-codegen-c"]
+handl-plugin-codegen-backend-c = { path = "../engine-codegen-c" }
+
+[patch."https://github.com/handl-lang/engine-codegen-cli"]
+handl-plugin-codegen-cli = { path = "../engine-codegen-cli" }
+
+[patch."https://github.com/handl-lang/engine-codegen-file"]
+handl-plugin-codegen-emitter-file = { path = "../engine-codegen-file" }
+
+[patch."https://github.com/handl-lang/engine-codegen-python"]
+handl-plugin-codegen-emitter-python = { path = "../engine-codegen-python" }
+
+[patch."https://github.com/handl-lang/engine-codegen-webidl"]
+handl-plugin-codegen-backend-webidl = { path = "../engine-codegen-webidl" }
+
+[patch."https://github.com/handl-lang/engine-test"]
+handl-kit-test = { path = "../engine-test/crates/kit-test" }
