@@ -93,5 +93,9 @@ handl-plugin-codegen-emitter-python = { path = "../tool-codegen-python" }
 [patch."https://github.com/handl-lang/tool-codegen-webidl"]
 handl-plugin-codegen-backend-webidl = { path = "../tool-codegen-webidl" }
 
+# P-013 T-152: the `typescript` target (atoms.yaml → client bindings).
+[patch."https://github.com/handl-lang/tool-codegen-ffi"]
+handl-plugin-codegen-ffi = { path = "../tool-codegen-ffi" }
+
 [patch."https://github.com/handl-lang/tool-test"]
 handl-kit-test = { path = "../tool-test/crates/kit-test" }
